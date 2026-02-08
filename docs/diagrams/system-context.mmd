@@ -1,0 +1,10 @@
+flowchart LR
+  User((User)) -->|HTTPS| GW[Gateway API]
+  GW --> Odoo[Odoo 19 Enterprise]
+  Odoo --> Redis[(Redis)]
+  Odoo --> PG[(Crunchy Postgres)]
+  GW --> OAuth2[oauth2-proxy]
+  OAuth2 --> KC[Keycloak]
+  Vault[HashiCorp Vault] --> ESO[External Secrets Operator]
+  ESO --> Odoo
+  ESO --> OAuth2

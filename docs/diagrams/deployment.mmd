@@ -1,0 +1,17 @@
+flowchart TB
+  subgraph Cluster[Kubernetes Cluster]
+    GW[Gateway]
+    HR[HTTPRoute]
+    Odoo[Odoo Deployment]
+    Redis[Redis StatefulSet]
+    OAuth2[oauth2-proxy Deployment]
+    PG[Crunchy Postgres]
+    ESO[External Secrets Operator]
+  end
+  User((User)) --> GW --> HR
+  HR --> Odoo
+  HR --> OAuth2 --> Odoo
+  Odoo --> Redis
+  Odoo --> PG
+  ESO --> Odoo
+  ESO --> OAuth2

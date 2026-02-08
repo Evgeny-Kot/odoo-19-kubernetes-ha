@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant U as User
+  participant GW as Gateway API
+  participant OP as oauth2-proxy
+  participant KC as Keycloak
+  participant OD as Odoo
+
+  U->>GW: HTTPS /web/database/manager
+  GW->>OP: Route to oauth2-proxy
+  OP->>KC: OIDC auth
+  KC-->>OP: Token
+  OP->>OD: Forward request (authorized)
+  OD-->>U: Response
+
+  U->>GW: HTTPS /
+  GW->>OD: Route to Odoo
+  OD-->>U: Response
