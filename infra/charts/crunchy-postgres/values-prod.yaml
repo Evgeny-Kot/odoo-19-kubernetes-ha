@@ -1,0 +1,24 @@
+postgresCluster:
+  name: odoo-prod
+  instances:
+    - name: instance1
+      replicas: 3
+      dataVolumeClaimSpec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 200Gi
+  backups:
+    pgbackrest:
+      repos:
+        - name: repo1
+          s3:
+            bucket: odoo-prod-pgbackrest
+            endpoint: https://minio.prod.yourdomain.tld
+            region: us-east-1
+            uriStyle: path
+            verifyTLS: true
+  users:
+    - name: odoo
+      databases: ["odoo"]
+      options: "SUPERUSER"

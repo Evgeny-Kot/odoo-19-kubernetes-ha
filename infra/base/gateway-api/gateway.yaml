@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: odoo-gateway
+  labels:
+    app: gateway
+spec:
+  gatewayClassName: external-gateway
+  listeners:
+    - name: https
+      hostname: odoo.default.yourdomain.tld
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: odoo-tls
+            kind: Secret

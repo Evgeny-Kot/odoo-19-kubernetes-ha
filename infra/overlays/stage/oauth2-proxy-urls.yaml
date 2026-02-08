@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+  template:
+    spec:
+      containers:
+        - name: oauth2-proxy
+          args:
+            - --redirect-url=https://odoo.stage.yourdomain.tld/oauth2/callback
+            - --oidc-issuer-url=https://keycloak.stage.yourdomain.tld/realms/odoo

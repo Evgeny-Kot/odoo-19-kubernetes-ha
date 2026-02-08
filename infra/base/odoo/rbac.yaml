@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: odoo-read
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps", "secrets"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: odoo-read
+subjects:
+  - kind: ServiceAccount
+    name: odoo
+roleRef:
+  kind: Role
+  name: odoo-read
+  apiGroup: rbac.authorization.k8s.io

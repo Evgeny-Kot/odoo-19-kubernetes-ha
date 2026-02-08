@@ -1,0 +1,8 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: odoo-gateway
+spec:
+  listeners:
+    - name: https
+      hostname: odoo.dev.yourdomain.tld

@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo
+spec:
+  template:
+    spec:
+      containers:
+        - name: odoo
+          image: registry.yourdomain.tld/odoo19-enterprise:0.1.0-dev

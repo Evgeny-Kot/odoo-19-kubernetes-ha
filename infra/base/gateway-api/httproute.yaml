@@ -1,0 +1,48 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: odoo-routes
+spec:
+  parentRefs:
+    - name: odoo-gateway
+  hostnames:
+    - odoo.default.yourdomain.tld
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /web/database/manager
+        - path:
+            type: PathPrefix
+            value: /web/database/selector
+        - path:
+            type: PathPrefix
+            value: /web/database
+      backendRefs:
+        - name: oauth2-proxy
+          port: 4180
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /longpolling
+      timeouts:
+        request: 300s
+      backendRefs:
+        - name: odoo
+          port: 8072
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /websocket
+      timeouts:
+        request: 300s
+      backendRefs:
+        - name: odoo
+          port: 8072
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: odoo
+          port: 80

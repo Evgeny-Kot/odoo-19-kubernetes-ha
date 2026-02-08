@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: odoo
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      serviceAccountName: odoo
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: odoo
+          image: registry.yourdomain.tld/odoo19-enterprise:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8069
+            - name: longpoll
+              containerPort: 8072
+          env:
+            - name: ODOO_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_host
+            - name: ODOO_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_port
+            - name: ODOO_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_user
+            - name: ODOO_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_password
+            - name: ODOO_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_name
+            - name: ODOO_DB_SSLMODE
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: db_sslmode
+            - name: ODOO_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-secrets
+                  key: admin_password
+            - name: ODOO_LIST_DB
+              value: "True"
+            - name: ODOO_WORKERS
+              value: "5"
+            - name: ODOO_MAX_CRON_THREADS
+              value: "2"
+            - name: ODOO_DB_MAXCONN
+              value: "64"
+            - name: ODOO_LIMIT_TIME_CPU
+              value: "60"
+            - name: ODOO_LIMIT_TIME_REAL
+              value: "120"
+            - name: ODOO_LIMIT_MEMORY_SOFT
+              value: "2147483648"
+            - name: ODOO_LIMIT_MEMORY_HARD
+              value: "2684354560"
+            - name: ODOO_LOG_LEVEL
+              value: "info"
+          volumeMounts:
+            - name: filestore
+              mountPath: /var/lib/odoo
+          readinessProbe:
+            httpGet:
+              path: /web/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /web/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 6
+          startupProbe:
+            httpGet:
+              path: /web/health
+              port: http
+            failureThreshold: 30
+            periodSeconds: 5
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 10"]
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop: ["ALL"]
+      volumes:
+        - name: filestore
+          persistentVolumeClaim:
+            claimName: odoo-filestore

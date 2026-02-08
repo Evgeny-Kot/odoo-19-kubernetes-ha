@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: odoo
+resources:
+  - namespace.yaml
+  - storage/filestore-pvc.yaml
+  - odoo/serviceaccount.yaml
+  - odoo/rbac.yaml
+  - odoo/deployment.yaml
+  - odoo/service.yaml
+  - odoo/hpa.yaml
+  - odoo/pdb.yaml
+  - odoo/networkpolicy.yaml
+  - redis/statefulset.yaml
+  - redis/service.yaml
+  - gateway-api/gateway.yaml
+  - gateway-api/httproute.yaml
+  - keycloak/oauth2-proxy.yaml
+  - vault/clustersecretstore.yaml
+  - vault/externalsecret-odoo.yaml
+  - vault/externalsecret-oauth2-proxy.yaml

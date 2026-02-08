@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patches:
+  - path: odoo-replicas.yaml
+    target:
+      kind: Deployment
+      name: odoo
+  - path: odoo-image.yaml
+    target:
+      kind: Deployment
+      name: odoo
+  - path: gateway-host.yaml
+    target:
+      kind: Gateway
+      name: odoo-gateway
+  - path: httproute-host.yaml
+    target:
+      kind: HTTPRoute
+      name: odoo-routes
+  - path: hpa-tuning.yaml
+    target:
+      kind: HorizontalPodAutoscaler
+      name: odoo
+  - path: oauth2-proxy-urls.yaml
+    target:
+      kind: Deployment
+      name: oauth2-proxy
+  - path: vault-server.yaml
+    target:
+      kind: ClusterSecretStore
+      name: vault-backend

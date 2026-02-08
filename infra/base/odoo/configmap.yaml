@@ -1,0 +1,2 @@
+# Deprecated: configuration is baked into the image via odoo/odoo.conf.template.
+# This file is intentionally left without a manifest.

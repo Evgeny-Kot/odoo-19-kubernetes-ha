@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: odoo-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: odoo
+  policyTypes: ["Ingress", "Egress"]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: gateway
+        - podSelector:
+            matchLabels:
+              app: oauth2-proxy
+      ports:
+        - protocol: TCP
+          port: 8069
+        - protocol: TCP
+          port: 8072
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+        - namespaceSelector:
+            matchLabels:
+              name: odoo
+      ports:
+        - protocol: TCP
+          port: 6379
+        - protocol: TCP
+          port: 5432
