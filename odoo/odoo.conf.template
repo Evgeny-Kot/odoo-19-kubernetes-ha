@@ -1,0 +1,28 @@
+[options]
+proxy_mode = True
+admin_passwd = ${ODOO_ADMIN_PASSWORD}
+
+db_host = ${ODOO_DB_HOST}
+db_port = ${ODOO_DB_PORT}
+db_user = ${ODOO_DB_USER}
+db_password = ${ODOO_DB_PASSWORD}
+db_name = ${ODOO_DB_NAME}
+db_sslmode = ${ODOO_DB_SSLMODE}
+
+list_db = ${ODOO_LIST_DB}
+workers = ${ODOO_WORKERS}
+max_cron_threads = ${ODOO_MAX_CRON_THREADS}
+db_maxconn = ${ODOO_DB_MAXCONN}
+
+limit_time_cpu = ${ODOO_LIMIT_TIME_CPU}
+limit_time_real = ${ODOO_LIMIT_TIME_REAL}
+limit_memory_soft = ${ODOO_LIMIT_MEMORY_SOFT}
+limit_memory_hard = ${ODOO_LIMIT_MEMORY_HARD}
+
+log_level = ${ODOO_LOG_LEVEL}
+addons_path = /opt/odoo/odoo/addons,/mnt/extra-addons/enterprise,/mnt/extra-addons/custom
+data_dir = /var/lib/odoo
+
+longpolling_port = 8072
+gevent_port = 8072
+http_port = 8069

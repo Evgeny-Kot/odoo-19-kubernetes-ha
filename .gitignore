@@ -1,0 +1,81 @@
+# =========================
+# macOS junk
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# =========================
+# Editor / IDE
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.venv/
+env/
+venv/
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+*.log
+
+# =========================
+# Kubernetes / Kustomize build output
+# =========================
+.audit/
+*.rendered.yaml
+*.kubeconform.txt
+*.kubeconform.err
+*.placeholders.txt
+*.kustomize.err
+
+# =========================
+# Local clusters
+# =========================
+.kube/
+kind-config.yaml
+
+# =========================
+# Terraform (if ever added)
+# =========================
+.terraform/
+terraform.tfstate*
+crash.log
+
+# =========================
+# Secrets / env files
+# =========================
+.env
+.env.*
+secrets.yaml
+*.secret.yaml
+
+# =========================
+# Archives
+# =========================
+*.zip
+*.tar
+*.tar.gz
+
+# =========================
+# OS generated
+# =========================
+Thumbs.db
+
